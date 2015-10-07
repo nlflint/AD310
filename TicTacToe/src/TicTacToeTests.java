@@ -165,14 +165,7 @@ public class TicTacToeTests extends TicTacToe {
         String result = capturePrintBoard();
 
         // assert
-        assertEquals("" +
-                " O | X | O \n" +
-                "---+---+---\n" +
-                " O | X | X \n" +
-                "---+---+---\n" +
-                " X | O | X \n",
-                result
-                );
+        assertEquals(buildExpectedPrintedBoard("OXOOXXXOX"), result);
     }
 
     @Test
@@ -184,14 +177,29 @@ public class TicTacToeTests extends TicTacToe {
         String result = capturePrintBoard();
 
         // assert
-        assertEquals("" +
-                " X | O | X \n" +
-                "---+---+---\n" +
-                " O | X |   \n" +
-                "---+---+---\n" +
-                "   |   |   \n",
-                result
-        );
+        assertEquals(buildExpectedPrintedBoard("XOXOX    "), result);
+    }
+
+    private String buildExpectedPrintedBoard(String boardLayout) {
+        String newLine = System.getProperty("line.separator");
+        String[] plays = boardLayout.split("");
+        return String.format("" +
+                " %1$s | %2$s | %3$s %10$s" +
+                "---+---+---%10$s" +
+                " %4$s | %5$s | %6$s %10$s" +
+                "---+---+---%10$s" +
+                " %7$s | %8$s | %9$s %10$s",
+                plays[1],
+                plays[2],
+                plays[3],
+                plays[4],
+                plays[5],
+                plays[6],
+                plays[7],
+                plays[8],
+                plays[9],
+                newLine
+                );
     }
 
     @Test
@@ -202,14 +210,7 @@ public class TicTacToeTests extends TicTacToe {
         String result = capturePrintBoard();
 
         // assert
-        assertEquals("" +
-                "   |   |   \n" +
-                "---+---+---\n" +
-                "   |   |   \n" +
-                "---+---+---\n" +
-                "   |   |   \n",
-                result
-        );
+        assertEquals(buildExpectedPrintedBoard("         "), result);
     }
 
     private String capturePrintBoard() {
