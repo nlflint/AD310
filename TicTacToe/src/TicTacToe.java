@@ -1,8 +1,12 @@
 public class TicTacToe extends TicTacToeBase {
 
-    public static final String PLAYER_ONE = "X";
-    public static final String PLAYER_TWO = "O";
-    public static final String CATS_GAME = "cat game";
+    public static final String PLAYER_ONE_MARK = "X";
+    public static final String PLAYER_TWO_MARK = "O";
+    public static final String CATS_GAME = "cats game";
+
+    private int[] board;
+    private int turnCount;
+    private int[][] winningRows;
 
     public static void main(String[] args) {
         TicTacToe theGame = new TicTacToe();
@@ -12,7 +16,7 @@ public class TicTacToe extends TicTacToeBase {
     public TicTacToe() {
         super();
         board = new int[10];
-        winnableRows = new int[][] {
+        winningRows = new int[][] {
             {1,2,3},
             {4,5,6},
             {7,8,9},
@@ -24,10 +28,6 @@ public class TicTacToe extends TicTacToeBase {
         };
     }
 
-    private int[] board;
-    private int turnCount;
-    private int[][] winnableRows;
-
     /**
      * Check the state of the current game.
      * @return <tt>true</tt> if the came is over.
@@ -36,16 +36,16 @@ public class TicTacToe extends TicTacToeBase {
     public boolean isGameOver() {
         if (turnCount >= 9)
             return true;
-        else if (hasPlayerWon(PLAYER_ONE))
+        else if (hasPlayerWon(PLAYER_ONE_MARK))
             return true;
-        else if (hasPlayerWon(PLAYER_TWO))
+        else if (hasPlayerWon(PLAYER_TWO_MARK))
             return true;
         return false;
     }
 
-    private boolean hasPlayerWon(String mark) {
-        int winningSum = getPlayerIntFromMark(mark) * 3;
-        for (int[] winnableRow : winnableRows)
+    private boolean hasPlayerWon(String playerMark) {
+        int winningSum = getPlayerIntFromPlayerMark(playerMark) * 3;
+        for (int[] winnableRow : winningRows)
             if (isWinningRow(winningSum, winnableRow)) return true;
 
         return false;
@@ -72,12 +72,12 @@ public class TicTacToe extends TicTacToeBase {
         System.out.println("Move " + turnCount + ": " +
                 mark + " at location " + square);
 
-        int playerInt = getPlayerIntFromMark(String.valueOf(mark));
+        int playerInt = getPlayerIntFromPlayerMark(String.valueOf(mark));
         board[square] = playerInt;
     }
 
-    private int getPlayerIntFromMark(String mark) {
-        return mark.equals(PLAYER_ONE) ? 1 : -1;
+    private int getPlayerIntFromPlayerMark(String mark) {
+        return mark.equals(PLAYER_ONE_MARK) ? 1 : -1;
     }
 
     /**
@@ -97,10 +97,10 @@ public class TicTacToe extends TicTacToeBase {
      * winner and there are still open squares
      */
     public String getWinner() {
-        if (hasPlayerWon(PLAYER_ONE))
-            return PLAYER_ONE;
-        else if (hasPlayerWon(PLAYER_TWO))
-            return PLAYER_TWO;
+        if (hasPlayerWon(PLAYER_ONE_MARK))
+            return PLAYER_ONE_MARK;
+        else if (hasPlayerWon(PLAYER_TWO_MARK))
+            return PLAYER_TWO_MARK;
         else
             return CATS_GAME;
     }
@@ -137,9 +137,9 @@ public class TicTacToe extends TicTacToeBase {
 
     private String getPlayer(int square) {
         if (board[square] == 1)
-            return PLAYER_ONE;
+            return PLAYER_ONE_MARK;
         else if (board[square] == -1)
-            return PLAYER_TWO;
+            return PLAYER_TWO_MARK;
         else
             return " ";
     }

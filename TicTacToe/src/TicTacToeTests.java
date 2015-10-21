@@ -5,9 +5,6 @@ import java.io.PrintStream;
 import static org.junit.Assert.*;
 
 public class TicTacToeTests extends TicTacToe {
-
-
-
     @Before public void BeforeEachTest() {
         resetBoard();
     }
@@ -85,7 +82,7 @@ public class TicTacToeTests extends TicTacToe {
         playCatsGame();
 
         // Assert
-        assertEquals("cat game", getWinner());
+        assertEquals("cats game", getWinner());
     }
 
     @Test
@@ -134,6 +131,33 @@ public class TicTacToeTests extends TicTacToe {
         // assert
         assertTrue(isLegalMove(4));
 
+    }
+
+    @Test
+    public void isLegalMove_WhenPlayingSpacesOutOfBounds_ReturnsFalse() {
+        // assert
+        assertFalse(isLegalMove(-100));
+        assertFalse(isLegalMove(-10));
+        assertFalse(isLegalMove(-1));
+        assertFalse(isLegalMove(0));
+        assertFalse(isLegalMove(10));
+        assertFalse(isLegalMove(50));
+        assertFalse(isLegalMove(100));
+
+    }
+
+    @Test
+    public void isLegalMove_WhenPlayingSpacesinBounds_ReturnsTrue() {
+        // assert
+        assertTrue(isLegalMove(1));
+        assertTrue(isLegalMove(2));
+        assertTrue(isLegalMove(3));
+        assertTrue(isLegalMove(4));
+        assertTrue(isLegalMove(5));
+        assertTrue(isLegalMove(6));
+        assertTrue(isLegalMove(7));
+        assertTrue(isLegalMove(8));
+        assertTrue(isLegalMove(9));
     }
 
     @Test
