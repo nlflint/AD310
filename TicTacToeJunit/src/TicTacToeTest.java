@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
-public class TicTacToeTests extends TicTacToe {
+public class TicTacToeTest extends TicTacToe {
     @Before
     public void BeforeEachTest()
     {
