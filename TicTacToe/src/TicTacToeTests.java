@@ -5,8 +5,16 @@ import java.io.PrintStream;
 import static org.junit.Assert.*;
 
 public class TicTacToeTests extends TicTacToe {
-    @Before public void BeforeEachTest() {
+    @Before
+    public void BeforeEachTest()
+    {
         resetBoard();
+    }
+
+    @After
+    public void AfterEach()
+    {
+        System.out.println("AFTER!!!");
     }
 
     @Test
@@ -24,7 +32,7 @@ public class TicTacToeTests extends TicTacToe {
         playXWins();
 
         // Assert
-        assertTrue(isGameOver());
+        org.junit.Assert.assertTrue(isGameOver());
     }
 
     private void playXWins() {
@@ -103,6 +111,11 @@ public class TicTacToeTests extends TicTacToe {
         assertEquals("O", getWinner());
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void getWinner_WhenNoWinner_ThrowsIllegalStateException() {
+        getWinner();
+    }
+
     @Test
     public void isLegalMove_WhenXHasAlreadyPlayedSpace_ReturnsFalse() {
         // arrange
@@ -149,15 +162,9 @@ public class TicTacToeTests extends TicTacToe {
     @Test
     public void isLegalMove_WhenPlayingSpacesinBounds_ReturnsTrue() {
         // assert
-        assertTrue(isLegalMove(1));
-        assertTrue(isLegalMove(2));
-        assertTrue(isLegalMove(3));
-        assertTrue(isLegalMove(4));
-        assertTrue(isLegalMove(5));
-        assertTrue(isLegalMove(6));
-        assertTrue(isLegalMove(7));
-        assertTrue(isLegalMove(8));
-        assertTrue(isLegalMove(9));
+        for (int i = 1; i < 10; i++)
+            assertTrue(isLegalMove(i));
+
     }
 
     @Test
@@ -178,6 +185,21 @@ public class TicTacToeTests extends TicTacToe {
         assertFalse(isLegalMove(10));
         assertFalse(isLegalMove(100));
 
+    }
+
+    @Test(expected = PlacementOutOfBoardException.class)
+    public void place_GivenValueAbove9_ThrowsAnException() {
+            playSquares(10);
+    }
+
+    @Test(expected = PlacementOutOfBoardException.class)
+    public void place_GivenValueBelow1_ThrowsAnException() {
+        playSquares(0);
+    }
+
+    @Test(expected = DuplicatePlacementException.class)
+    public void place_WhenSquareAlreadyPlayed_ThrowsAnException() {
+        playSquares(1,1);
     }
 
     @Test
@@ -270,6 +292,13 @@ public class TicTacToeTests extends TicTacToe {
 
     private char toggleMark(char mark) {
         return mark == 'X' ? 'O' : 'X';
+    }
+
+    @Test
+    public void doubleTest() {
+        double val = 13;
+        double valTwo = 13;
+        assertEquals("asdf", val, valTwo);
     }
 }
 

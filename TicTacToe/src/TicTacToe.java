@@ -34,13 +34,17 @@ public class TicTacToe extends TicTacToeBase {
      */
     @Override
     public boolean isGameOver() {
-        if (turnCount >= 9)
+        if (areAllSquareTaken())
             return true;
         else if (hasPlayerWon(PLAYER_ONE_MARK))
             return true;
         else if (hasPlayerWon(PLAYER_TWO_MARK))
             return true;
         return false;
+    }
+
+    private boolean areAllSquareTaken() {
+        return turnCount >= 9;
     }
 
     private boolean hasPlayerWon(String playerMark) {
@@ -73,6 +77,11 @@ public class TicTacToe extends TicTacToeBase {
                 mark + " at location " + square);
 
         int playerInt = getPlayerIntFromPlayerMark(String.valueOf(mark));
+
+        if (!isWithinBounds(square))
+            throw new PlacementOutOfBoardException();
+        else if (!isSquareAvailable(square))
+            throw new DuplicatePlacementException();
         board[square] = playerInt;
     }
 
@@ -101,8 +110,10 @@ public class TicTacToe extends TicTacToeBase {
             return PLAYER_ONE_MARK;
         else if (hasPlayerWon(PLAYER_TWO_MARK))
             return PLAYER_TWO_MARK;
-        else
+        else if (areAllSquareTaken())
             return CATS_GAME;
+        else
+            throw new IllegalStateException();
     }
 
     /**
@@ -112,10 +123,10 @@ public class TicTacToe extends TicTacToeBase {
      */
     public boolean isLegalMove(int square) {
         return isWithinBounds(square) &&
-                isNotPlayed(square);
+                isSquareAvailable(square);
     }
 
-    private boolean isNotPlayed(int square) {
+    private boolean isSquareAvailable(int square) {
         return board[square] == 0;
     }
 
@@ -143,4 +154,7 @@ public class TicTacToe extends TicTacToeBase {
         else
             return " ";
     }
+
+    public class PlacementOutOfBoardException extends RuntimeException {}
+    public class DuplicatePlacementException extends RuntimeException {}
 }
